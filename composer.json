@@ -1,0 +1,28 @@
+{
+  "name": "wp/kvstore",
+  "type": "package",
+  "license": "MIT",
+  "description": "Simple key-value storage adapter for permanent store in RDB",
+  "homepage": "https://github.com/webproducer/kvstore",
+  "authors": [
+    {
+      "name": "Alexander Safronov",
+      "email": "safron@webproducers.ru"
+    },
+    {
+      "name": "Vladimir Ekhvalov",
+      "email": "ekhvalov@gmail.com"
+    }
+  ],
+  "autoload" : {
+    "psr-0" : {
+      "KVStore": "src/"
+    }
+  },
+  "require": {
+    "wp/recordsman" : "dev-master"
+  },
+  "repositories": [
+    { "type" : "vcs", "url" : "http://github.com/webproducer/recordsman" }
+  ]
+}

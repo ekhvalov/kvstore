@@ -12,7 +12,7 @@ class KVStore
     /**
      * @param IDBAdapter $adapter
      */
-    public function init(IDBAdapter $adapter) {
+    public function __construct(IDBAdapter $adapter) {
         self::$adapter = $adapter;
     }
 

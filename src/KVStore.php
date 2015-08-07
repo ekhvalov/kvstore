@@ -12,13 +12,14 @@ class KVStore
     /**
      * @param IDBAdapter $adapter
      */
-    public function init(IDBAdapter $adapter) {
+    public function __construct(IDBAdapter $adapter) {
         self::$adapter = $adapter;
     }
 
     /**
      * @param string $key
-     * @return mixed
+     * @param mixed|null $default
+     * @return mixed|null
      */
     public static function get($key) {
         $sql = "SELECT `kvstore_value` FROM `kvstore_storage` WHERE `kvstore_key`=':key'";

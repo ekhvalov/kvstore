@@ -21,7 +21,7 @@ class KVStore
      * @return mixed
      */
     public static function get($key) {
-        $sql = "SELECT `kvstore_value` FROM `kvstore_storage` WHERE `kvstore_key`=':key';";
+        $sql = "SELECT `kvstore_value` FROM `kvstore_storage` WHERE `kvstore_key`=':key'";
         return self::$adapter->fetchSingleValue($sql, [':key' => $key]);
     }
 
@@ -33,7 +33,7 @@ class KVStore
      */
     public static function set($key, $value) {
         $sql = "INSERT INTO `kvstore_storage` (kvstore_key, kvstore_value) VALUES (':key', ':value')";
-        $sql.= "ON DUPLICATE KEY UPDATE `kvstore_value`=':value';";
+        $sql.= "ON DUPLICATE KEY UPDATE `kvstore_value`=':value'";
         return self::$adapter->query($sql, [':key' => $key, ':value' => $value]);
     }
 
@@ -42,7 +42,7 @@ class KVStore
      * @return mixed
      */
     public static function drop($key) {
-        $sql = "DELETE FROM `kvstore_storage` WHERE `kvstore_key`=':key';";
+        $sql = "DELETE FROM `kvstore_storage` WHERE `kvstore_key`=':key'";
         return self::$adapter->query($sql, [':key' => $key]);
     }
 

@@ -15,8 +15,8 @@
     }
   ],
   "autoload" : {
-    "psr-0" : {
-      "KVStore": "src/"
+    "psr-4" : {
+      "KVStore\\": "src/"
     }
   },
   "require": {

@@ -1,20 +1,21 @@
 <?php
-namespace KVStore;
+namespace KVStore\RDB;
 
+use KVStore\IKVStore;
 use RecordsMan\IDBAdapter;
 use RecordsMan\RecordsManException;
 
-class KVStore implements IKVStore
+class Storage implements IKVStore
 {
     /** @var IDBAdapter $adapter */
-    private static $adapter;
+    private $_adapter;
 
     /**
      * KVStore constructor.
      * @param IDBAdapter $adapter
      */
     public function __construct(IDBAdapter $adapter) {
-        self::$adapter = $adapter;
+        $this->_adapter = $adapter;
     }
 
     /**
@@ -22,7 +23,7 @@ class KVStore implements IKVStore
      */
     public function get($key, $default = null) {
         $sql = "SELECT `kvstore_value` FROM `kvstore_storage` WHERE `kvstore_key`=:key";
-        $value = self::$adapter->fetchSingleValue($sql, [':key' => $key]);
+        $value = $this->_adapter->fetchSingleValue($sql, [':key' => $key]);
         return ($value !== false) ? $value : $default;
     }
 
@@ -33,7 +34,7 @@ class KVStore implements IKVStore
     public function set($key, $value) {
         $sql = "INSERT INTO `kvstore_storage` (kvstore_key, kvstore_value) VALUES (:key, :value)";
         $sql.= "ON DUPLICATE KEY UPDATE `kvstore_value`=:value;";
-        return self::$adapter->query($sql, [':key' => $key, ':value' => $value]);
+        return $this->_adapter->query($sql, [':key' => $key, ':value' => $value]);
     }
 
     /**
@@ -41,6 +42,6 @@ class KVStore implements IKVStore
      */
     public function drop($key) {
         $sql = "DELETE FROM `kvstore_storage` WHERE `kvstore_key`=:key;";
-        return self::$adapter->query($sql, [':key' => $key]);
+        return $this->_adapter->query($sql, [':key' => $key]);
     }
 }

@@ -4,12 +4,13 @@ namespace KVStore;
 use RecordsMan\IDBAdapter;
 use RecordsMan\RecordsManException;
 
-class KVStore
+class KVStore implements IKVStore
 {
     /** @var IDBAdapter $adapter */
     private static $adapter;
 
     /**
+     * KVStore constructor.
      * @param IDBAdapter $adapter
      */
     public function __construct(IDBAdapter $adapter) {
@@ -17,35 +18,29 @@ class KVStore
     }
 
     /**
-     * @param string $key
-     * @param mixed|null $default
-     * @return mixed|null
+     * @inheritdoc
      */
-    public static function get($key, $default = null) {
+    public function get($key, $default = null) {
         $sql = "SELECT `kvstore_value` FROM `kvstore_storage` WHERE `kvstore_key`=:key";
         $value = self::$adapter->fetchSingleValue($sql, [':key' => $key]);
         return ($value !== false) ? $value : $default;
     }
 
     /**
-     * @param $key
-     * @param $value
-     * @return mixed
+     * @inheritdoc
      * @throws RecordsManException
      */
-    public static function set($key, $value) {
+    public function set($key, $value) {
         $sql = "INSERT INTO `kvstore_storage` (kvstore_key, kvstore_value) VALUES (:key, :value)";
         $sql.= "ON DUPLICATE KEY UPDATE `kvstore_value`=:value;";
         return self::$adapter->query($sql, [':key' => $key, ':value' => $value]);
     }
 
     /**
-     * @param string $key
-     * @return mixed
+     * @inheritdoc
      */
-    public static function drop($key) {
+    public function drop($key) {
         $sql = "DELETE FROM `kvstore_storage` WHERE `kvstore_key`=:key;";
         return self::$adapter->query($sql, [':key' => $key]);
     }
-
 }

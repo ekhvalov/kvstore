@@ -1,11 +1,11 @@
 <?php
 namespace KVStore\RDB;
 
-use KVStore\IKVStore;
+use KVStore\IKVStorage;
 use RecordsMan\IDBAdapter;
 use RecordsMan\RecordsManException;
 
-class Storage implements IKVStore
+class Storage implements IKVStorage
 {
     /** @var IDBAdapter $adapter */
     private $_adapter;

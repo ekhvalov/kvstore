@@ -5,7 +5,7 @@ namespace KVStore;
  * Interface IKVStore
  * @package KVStore
  */
-interface IKVStore
+interface IKVStorage
 {
     /**
      * @param string $key
